@@ -16,16 +16,16 @@ import android.view.WindowManager
 import android.widget.TextView
 import androidx.core.app.NotificationCompat
 class FloatingBarService : Service() {
-    private lateinit var windowManager: WindowManager
-    private lateinit var floatingView: View
-    private lateinit var floatingNumberTextView: TextView
+    private lateinit var windowmanager: WindowManager
+    private lateinit var floatingview: View
+    private lateinit var floatingviewdisplay: TextView
     @SuppressLint("ForegroundServiceType", "InflateParams", "InlinedApi")
     override fun onCreate() {
         super.onCreate()
         instance = this
-        windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
-        floatingView = LayoutInflater.from(this).inflate(R.layout.floating_bar, null)
-        floatingNumberTextView = floatingView.findViewById(R.id.floatingNumberTextView)
+        windowmanager = getSystemService(WINDOW_SERVICE) as WindowManager
+        floatingview = LayoutInflater.from(this).inflate(R.layout.floating_bar, null)
+        floatingviewdisplay = floatingview.findViewById(R.id.floatingNumberTextView)
         val params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
@@ -33,21 +33,21 @@ class FloatingBarService : Service() {
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             PixelFormat.TRANSLUCENT)
         params.gravity = Gravity.TOP
-        floatingView.setOnTouchListener(object : View.OnTouchListener {
-            private var initialY: Int = 0
-            private var initialTouchY: Float = 0f
+        floatingview.setOnTouchListener(object : View.OnTouchListener {
+            private var yinit: Int = 0
+            private var touchyinit: Float = 0f
             @SuppressLint("ClickableViewAccessibility")
             override fun onTouch(v: View?, event: MotionEvent): Boolean {
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
-                        initialY = params.y
-                        initialTouchY = event.rawY
+                        yinit = params.y
+                        touchyinit = event.rawY
                         return true }
                     MotionEvent.ACTION_MOVE -> {
-                        params.y = initialY + (event.rawY - initialTouchY).toInt()
-                        windowManager.updateViewLayout(floatingView, params)
+                        params.y = yinit + (event.rawY - touchyinit).toInt()
+                        windowmanager.updateViewLayout(floatingview, params)
                         return true } };return false }})
-        windowManager.addView(floatingView, params)
+        windowmanager.addView(floatingview, params)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 "foreground_channel",
@@ -65,7 +65,7 @@ class FloatingBarService : Service() {
                 .build()
             startForeground(1, notification) } }
 
-    override fun onDestroy() { super.onDestroy();windowManager.removeView(floatingView)}
+    override fun onDestroy() { super.onDestroy();windowmanager.removeView(floatingview)}
 
     override fun onBind(intent: Intent): IBinder? { return null }
 
@@ -73,7 +73,7 @@ class FloatingBarService : Service() {
         @SuppressLint("StaticFieldLeak")
         private var instance: FloatingBarService? = null
         fun updateFloatingBar(text: String) {
-            instance?.floatingNumberTextView?.post {
-                instance?.floatingNumberTextView?.text = text } } }
+            instance?.floatingviewdisplay?.post {
+                instance?.floatingviewdisplay?.text = text } } }
 }
 
