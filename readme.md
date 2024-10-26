@@ -8,4 +8,4 @@ So pretty much another useless project by HittyGubby the GubbyTheHitter.(Hitler?
 
 Not gonna lock your phone or do random insidious tricks, just to let you feel pressure and time will let you adjust your sleep.
 
-** AND IF YOU DONT GOD WILL HELP YOU DO THIS ** 
+**AND IF YOU DONT GOD WILL HELP YOU DO THIS**
